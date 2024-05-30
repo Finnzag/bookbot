@@ -1,12 +1,18 @@
+import operator
+
+
 def main():
 
-    with open("books/frankenstein.txt") as f:
+    path_to_book = "books/frankenstein.txt"
+
+    with open(path_to_book) as f:
         file_centents = f.read()
-        print(file_centents)
 
-        print(num_words_in_string(file_centents))
+        #print(num_words_in_string(file_centents))
 
-        print(num_of_letters(file_centents))
+        #print(num_of_letters(file_centents))
+
+        generate_report(num_of_letters(file_centents), num_words_in_string(file_centents), path_to_book)
 
     return 0
 
@@ -33,10 +39,30 @@ def num_of_letters(book_text):
                 if low_letter == alpha:
                     count += 1
         letter_numbers_dict[alpha] = count
-            
-            
 
     return letter_numbers_dict
+
+def generate_report(number_letters_dict, num_words, book_path):
+
+    print(f"--- Begin report of {book_path} ---")
+    print(f"{num_words} words found in the document\n")
+
+    number_letters_list = []
+
+
+    for key in number_letters_dict:
+        number_letters_list.append({"letter":key, "number":number_letters_dict[key]})
+
+    number_letters_list.sort(reverse=True, key=operator.itemgetter('number'))
+
+    for dict in number_letters_list:
+        print(f"The '{dict['letter']}' character was found {dict['number']} times")
+
+    
+    print("--- End Report ---")
+
+    return 0
+    
 
 
 
